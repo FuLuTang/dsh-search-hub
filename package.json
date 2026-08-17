@@ -5,7 +5,8 @@
   "type": "module",
   "description": "Persistent agent-visible multi-channel web search tools for DSH",
   "scripts": {
-    "check": "node --check src/search-hub.mjs"
+    "check": "node --check src/search-hub.mjs",
+    "test": "node --test test/**/*.test.mjs"
   },
   "keywords": ["dsh", "search", "grok", "exa", "duckduckgo"]
 }

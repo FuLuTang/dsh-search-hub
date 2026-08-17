@@ -28,7 +28,7 @@ export function listChannelStatus(config, keyConfigured) {
 }
 
 export function selectedChannels(input, config) {
-  const requested = Array.isArray(input) && input.length ? [...new Set(input)] : ['exa-anon', 'ddg']
+  const requested = Array.isArray(input) && input.length ? [...new Set(input)] : config.defaultChannels
   const selected = requested.filter(id => Object.hasOwn(channelCatalog, id))
   if (!selected.length) throw new Error(`channels must include at least one of: ${Object.keys(channelCatalog).join(', ')}`)
   for (const id of selected) if (!config.channels[id].enabled) throw new Error(`channel ${id} is disabled in Search Hub settings`)

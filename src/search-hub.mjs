@@ -23,9 +23,10 @@ function output() {
 
 export function apply(ctx, supplied = {}) {
   const config = { ...defaultConfig, ...supplied }
-  // Settings integration is deliberately isolated: until the host profile exposes
-  // the namespace to Web API proxy, the composition config remains the fallback.
-  let activeSettings = () => normalizeSettings(config.settings)
+  // The profile-wide settings service is optional during standalone preset
+  // development; production profile composition provides it live.
+  const settingsService = ctx.get?.('searchHubSettings')
+  const activeSettings = () => settingsService?.get ? settingsService.get() : normalizeSettings(config.settings)
   const usage = { grokRequests: 0, lastGrokUsage: undefined }
 
   ctx.systemPrompt.section({
