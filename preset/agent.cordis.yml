@@ -1,9 +1,7 @@
 # Mount this row in an agent preset composition. The agent-preset scope makes
 # these registrations model-visible only to agents using the Search Hub preset.
 - id: search-hub
-  name: ./search-hub.mjs
+  name: ./src/search-hub.mjs
   config:
+    # Secret VALUE stays in DSH credentials; this is only its reference name.
     xaiCredentialRef: XAI_API_KEY
-    grokModel: grok-4.6
-    timeoutMs: 30000
-    maxResults: 8
