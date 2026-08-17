@@ -1,0 +1,11 @@
+{
+  "name": "dsh-search-hub",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Persistent agent-visible multi-channel web search tools for DSH",
+  "scripts": {
+    "check": "node --check src/search-hub.mjs"
+  },
+  "keywords": ["dsh", "search", "grok", "exa", "duckduckgo"]
+}
