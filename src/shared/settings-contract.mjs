@@ -8,7 +8,7 @@ export const defaultSettings = Object.freeze({
   channels: {
     'exa-anon': { enabled: true, maxResults: 8, timeoutMs: 30000 },
     ddg: { enabled: true, maxResults: 8, timeoutMs: 30000 },
-    grok: { enabled: true, model: 'grok-4.6', maxResults: 8, timeoutMs: 30000, webSearch: true, xSearch: true },
+    grok: { enabled: true, model: 'grok-4.3', reasoningEffort: 'low', maxResults: 8, timeoutMs: 30000, webSearch: true, xSearch: true },
   },
 })
 
@@ -21,6 +21,8 @@ function channelList(value, fallback) {
   const known = [...new Set(value.filter(id => CHANNEL_IDS.includes(id)))]
   return known.length ? known : [...fallback]
 }
+const REASONING_EFFORTS = new Set(['none', 'low', 'medium', 'high'])
+function reasoningEffort(value) { return REASONING_EFFORTS.has(value) ? value : 'low' }
 
 /** Normalize untrusted persisted settings without accepting unknown channels. */
 export function normalizeSettings(value = {}) {
@@ -35,7 +37,7 @@ export function normalizeSettings(value = {}) {
     channels: {
       'exa-anon': { enabled: bool(exa.enabled, true), maxResults: integer(exa.maxResults, 8, 1, 20), timeoutMs: integer(exa.timeoutMs, 30000, 1000, 120000) },
       ddg: { enabled: bool(ddg.enabled, true), maxResults: integer(ddg.maxResults, 8, 1, 20), timeoutMs: integer(ddg.timeoutMs, 30000, 1000, 120000) },
-      grok: { enabled: bool(grok.enabled, true), model: typeof grok.model === 'string' && grok.model.trim() ? grok.model.trim() : 'grok-4.6', maxResults: integer(grok.maxResults, 8, 1, 20), timeoutMs: integer(grok.timeoutMs, 30000, 1000, 120000), webSearch: bool(grok.webSearch, true), xSearch: bool(grok.xSearch, true) },
+      grok: { enabled: bool(grok.enabled, true), model: typeof grok.model === 'string' && grok.model.trim() ? grok.model.trim() : 'grok-4.3', reasoningEffort: reasoningEffort(grok.reasoningEffort), maxResults: integer(grok.maxResults, 8, 1, 20), timeoutMs: integer(grok.timeoutMs, 30000, 1000, 120000), webSearch: bool(grok.webSearch, true), xSearch: bool(grok.xSearch, true) },
     },
   }
 }

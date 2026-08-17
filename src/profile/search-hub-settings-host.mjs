@@ -18,7 +18,7 @@ export const Config = z.object({
   channels: z.object({
     'exa-anon': z.object(common),
     ddg: z.object(common),
-    grok: z.object({ ...common, model: z.string().default('grok-4.6'), webSearch: z.boolean().default(true), xSearch: z.boolean().default(true) }),
+    grok: z.object({ ...common, model: z.string().default('grok-4.3'), reasoningEffort: z.string().default('low'), webSearch: z.boolean().default(true), xSearch: z.boolean().default(true) }),
   }),
 })
 

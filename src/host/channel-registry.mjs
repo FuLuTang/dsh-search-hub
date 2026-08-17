@@ -14,8 +14,8 @@ export const channelCatalog = Object.freeze({
   grok: {
     id: 'grok', label: 'xAI Grok', free: false, credentialRef: 'XAI_API_KEY',
     capabilities: ['web', 'x-twitter', 'long-tail'], defaultEnabled: false,
-    settings: ['enabled', 'model', 'maxResults', 'timeoutMs', 'webSearch', 'xSearch'],
-    description: 'xAI Responses API with Web and X/Twitter search. Requires an xAI API key and incurs API usage.',
+    settings: ['enabled', 'model', 'reasoningEffort', 'maxResults', 'timeoutMs', 'webSearch', 'xSearch'],
+    description: 'xAI Responses API (grok-4.3, low reasoning) with Web and X/Twitter search. Requires an xAI API key and incurs API usage (~$0.01-0.03 per query).',
   },
 })
 

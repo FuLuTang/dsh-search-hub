@@ -16,3 +16,11 @@ test('validation rejects unusable defaults', () => {
 test('validation rejects Grok with both search tools disabled', () => {
   assert.throws(() => validateSettings({ channels: { grok: { webSearch: false, xSearch: false } } }), /Grok must enable/)
 })
+test('defaults use cheap model and low reasoning', () => {
+  assert.equal(defaultSettings.channels.grok.model, 'grok-4.3')
+  assert.equal(defaultSettings.channels.grok.reasoningEffort, 'low')
+})
+test('normalization clamps invalid reasoning effort to low', () => {
+  assert.equal(normalizeSettings({ channels: { grok: { reasoningEffort: 'extreme' } } }).channels.grok.reasoningEffort, 'low')
+  assert.equal(normalizeSettings({ channels: { grok: { reasoningEffort: 'high' } } }).channels.grok.reasoningEffort, 'high')
+})

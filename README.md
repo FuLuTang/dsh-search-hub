@@ -8,9 +8,11 @@ Persistent, agent-visible multi-channel search for DeepSeek Harness (DSH). Searc
 | --- | --- | --- |
 | `exa-anon` | Free semantic, long-tail, and Japanese fallback via Exa's anonymous MCP endpoint | Free, no key |
 | `ddg` | Free basic fallback via DuckDuckGo Lite | Free, no key |
-| `grok` | xAI web plus X/Twitter coverage | xAI API key; usage-priced |
+| `grok` | xAI web plus X/Twitter coverage | xAI API key; usage-priced (~$0.01–0.03/query) |
 
 `multi_search` accepts one or more channels and runs the selected channels concurrently. It defaults to the free channels (`exa-anon`, `ddg`); select `grok` when X/Twitter or long-tail coverage makes paid usage worthwhile.
+
+Grok runs on `grok-4.3` (input $1.25 / output $2.50 per 1M tokens) with `low` reasoning effort and `web_search`/`x_search` built-in tools (each search call $5 per 1k). Web search sources are pulled back directly via `include: ["web_search_call.action.sources"]`, so results are structured URLs plus a short cited summary — no standalone xAI search endpoint exists (verified against the current xAI docs).
 
 ## Tools
 
