@@ -1,0 +1,6 @@
+# DSH bundle patch: profile-scoped Search Hub settings service.
+# Agent-visible search tools remain intentionally mounted by preset/agent.cordis.yml,
+# where DSH keeps their registration in the selected agent's scope.
+- insert:
+    - id: search-hub-settings
+      name: 'dsh-search-hub'

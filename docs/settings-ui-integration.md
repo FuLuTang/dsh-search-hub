@@ -35,6 +35,7 @@ The persisted user layer belongs in the existing DSH settings provider (`$DSH_HO
 3. Compose a Client plugin built with the DSH Web profile that:
    - binds `ctx.settingsScope` to `search-hub`;
    - injects a card into `settings.plugin.item` (the existing Plugins > Configurable surface);
+   - binds a Search Hub locale namespace through `ctx.locale.bind(...)` and registers its English and Chinese dictionaries with `@deepseek-ai/dsh-client-locale`;
    - renders per-channel fields and writes only non-secret settings;
    - reads xAI configuration state through the credentials-safe API, never the key value.
 4. Rebuild affected Web artifacts and restart DSH. A browser refresh alone cannot load the new static profile composition.
@@ -46,6 +47,10 @@ The persisted user layer belongs in the existing DSH settings provider (`$DSH_HO
 - Show “key configured / not configured” for Grok, not the secret.
 - Do not offer proxy host/port fields. Connectivity stays user-managed in Clash / Clash Verge.
 - A disabled channel is rejected by `multi_search` with an actionable message.
+
+## Localization contract
+
+The future Web Settings card must use DSH's client locale service rather than hard-coded UI strings. Register `en` and `zh` dictionaries under a Search Hub locale namespace, bind translations with `ctx.locale.bind(...)`, and render every visible label, help text, channel status, validation error, and key-state string through that binding. Slot labels must be functions such as `label: () => t('nav')` so they react to language changes. Fall back to English for an unsupported locale. Tool output remains English-oriented model text for now and is separate from the Settings-card localization contract.
 
 ## References
 

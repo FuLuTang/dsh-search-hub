@@ -33,14 +33,16 @@ This plugin has **no proxy UI and no proxy override**. Network routing follows t
 
 ## Installation design
 
-DSH rc.6 dynamic Cordis tools are not reliably model-visible in the defining agent's scope. This project therefore uses a persistent agent-preset composition.
+This repository is an installable DSH bundle package: it declares `dsh.bundle.patch` in `package.json`, and `cordis.patch.yml` mounts the profile-scoped Search Hub settings service when installed with `dsh plugin add`. It is intentionally a **Host-only** bundle today; it does not claim to ship a Web Settings card before that client integration exists.
 
-1. Copy `preset/` and `src/` to `${DSH_HOME:-$HOME/.dsh}/.agent-presets/search-hub/`.
-2. Select **Search Hub** as the agent preset in DSH.
+DSH rc.6 dynamic Cordis tools are not reliably model-visible in the defining agent's scope. The actual search tools therefore remain a persistent **agent-preset** composition:
+
+1. Install the package (after npm publication): `dsh plugin add dsh-search-hub`.
+2. Copy the shipped `preset/` template into `${DSH_HOME:-$HOME/.dsh}/.agent-presets/search-hub/`, then select **Search Hub** in a new DSH agent session. Its composition resolves the installed `dsh-search-hub/agent` export.
 3. Restart DSH after installation, then use `search_channels` to verify the model-visible tool catalog.
 4. Set the xAI key only through `configure_key` or DSH credentials settings. Do not place a key in YAML, Git, or chat.
 
-The agent-preset portion can provide model-visible tools. A full channel Settings page additionally needs the Web profile integration described in [`docs/settings-ui-integration.md`](docs/settings-ui-integration.md), because DSH's API proxy must explicitly expose the `search-hub` namespace. The final installation step needs a user-approved DSH restart.
+The agent-preset portion provides model-visible tools, while the installed bundle owns the profile settings seam. A full channel Settings page additionally needs the Web profile integration described in [`docs/settings-ui-integration.md`](docs/settings-ui-integration.md), because DSH's API proxy must explicitly expose the `search-hub` namespace. The final installation step needs a user-approved DSH restart.
 
 ## Development
 

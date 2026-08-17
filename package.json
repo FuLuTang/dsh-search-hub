@@ -1,12 +1,50 @@
 {
   "name": "dsh-search-hub",
   "version": "0.1.0",
-  "private": true,
   "type": "module",
-  "description": "Persistent agent-visible multi-channel web search tools for DSH",
-  "scripts": {
-    "check": "node --check src/search-hub.mjs",
-    "test": "node --test test/**/*.test.mjs"
+  "main": "./src/profile/index.mjs",
+  "description": "Agent-preset multi-channel web search tools and profile settings for DeepSeek Harness.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FuLuTang/dsh-search-hub.git"
   },
-  "keywords": ["dsh", "search", "grok", "exa", "duckduckgo"]
+  "homepage": "https://github.com/FuLuTang/dsh-search-hub#readme",
+  "bugs": {
+    "url": "https://github.com/FuLuTang/dsh-search-hub/issues"
+  },
+  "scripts": {
+    "check": "node --check src/search-hub.mjs && node --check src/profile/search-hub-settings-host.mjs && node --check src/profile/index.mjs",
+    "test": "node --test test/**/*.test.mjs",
+    "pack:check": "npm pack --dry-run"
+  },
+  "keywords": ["deepseek-harness", "dsh", "dsh-plugin", "search", "grok", "exa", "duckduckgo"],
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "^4.0.1",
+    "@deepseek-ai/dsh-settings": ">=0.1.0-rc.1 <0.1.0 || >=0.1.0-rc.1 <0.2.0-0",
+    "@deepseek-ai/schemastery": "^3.18.1"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "exports": {
+    ".": "./src/profile/index.mjs",
+    "./agent": "./src/search-hub.mjs",
+    "./preset/*": "./preset/*",
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "src",
+    "preset",
+    "docs",
+    "cordis.patch.yml",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  }
 }

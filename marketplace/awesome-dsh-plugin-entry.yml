@@ -1,0 +1,8 @@
+# Copy this file to awesome-dsh-plugin/data/plugins/FuLuTang__dsh-search-hub.yml
+# after the package is published or its GitHub installation is verified.
+url: https://github.com/FuLuTang/dsh-search-hub
+name: FuLuTang/dsh-search-hub
+category: tools
+description:
+  en: Agent-preset multi-channel search tools for Exa, DuckDuckGo, and optional xAI Grok/X search.
+  zh: 面向 Exa、DuckDuckGo 与可选 xAI Grok/X 搜索的智能体预设多渠道搜索工具。
