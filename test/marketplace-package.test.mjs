@@ -5,6 +5,7 @@ import test from 'node:test'
 const packageJson = JSON.parse(await readFile(new URL('../package.json', import.meta.url), 'utf8'))
 const patch = await readFile(new URL('../cordis.patch.yml', import.meta.url), 'utf8')
 const preset = await readFile(new URL('../preset/agent.cordis.yml', import.meta.url), 'utf8')
+const client = await readFile(new URL('../client/client.js', import.meta.url), 'utf8')
 
 test('package declares an installable DSH bundle', () => {
   assert.equal(packageJson.private, undefined)
@@ -13,6 +14,11 @@ test('package declares an installable DSH bundle', () => {
   assert.equal(packageJson.main, './src/profile/index.mjs')
   assert.equal(packageJson.exports['.'], './src/profile/index.mjs')
   assert.equal(packageJson.exports['./agent'], './src/search-hub.mjs')
+  assert.equal(packageJson.exports['./client'], './client/client.js')
+  assert.equal(packageJson.dsh?.client?.platform, 'web')
+  assert.match(client, /settings\.plugin\.item/)
+  assert.match(client, /ctx\.locale\.register/)
+  assert.ok(packageJson.files.includes('client'))
   assert.ok(packageJson.files.includes('preset'))
   assert.ok(packageJson.files.includes('src'))
   assert.match(patch, /id: search-hub-settings/)
