@@ -1,7 +1,6 @@
 // Web-profile host entry. This is intentionally separate from the agent-preset
 // tool entry: Settings live at profile scope while tools are agent-scoped.
 import z from '@deepseek-ai/schemastery'
-import { installSettingsSection, settingsNamespace } from '@deepseek-ai/dsh-settings'
 import { defaultSettings, normalizeSettings, validateSettings, SEARCH_HUB_SETTINGS_NAMESPACE } from '../shared/settings-contract.mjs'
 
 export const name = 'dsh-search-hub-settings-host'
@@ -24,14 +23,18 @@ export const Config = z.object({
 
 /**
  * Publish one read-only resolved-settings seam for the agent-scoped tool plugin.
- * `installSettingsSection` owns file persistence and composition/user layering.
+ * Use the stable SettingsProvider service API so this works across DSH settings
+ * package generations (where the convenience helpers differ or are absent).
  */
 export function apply(ctx, entry = defaultSettings) {
   let current = () => normalizeSettings(entry)
   ctx.provide('searchHubSettings', { get: () => current() })
-  installSettingsSection(ctx, settingsNamespace(SEARCH_HUB_SETTINGS_NAMESPACE), Config, entry, {
-    setSource: source => { current = () => normalizeSettings(source()) },
-    onChange: () => {},
-    validate: value => { validateSettings(value) },
+  ctx.inject(['settings'], sctx => {
+    const scope = sctx.settings.register(SEARCH_HUB_SETTINGS_NAMESPACE, Config, {
+      base: entry,
+      validate: value => { validateSettings(value) },
+    })
+    current = () => normalizeSettings(scope.get())
+    sctx.effect(() => () => { current = () => normalizeSettings(entry) })
   })
 }
